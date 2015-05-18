@@ -109,7 +109,7 @@ $ cf push
  Create Version 2 by changing the Version Number Env variable 
 
 === Push Version 2 and Delete the Old Route using the script
-Create a env file with the following variables
+Create a link:./.env[env file] with the following variables
 [source,bash]
 CF_SYSTEM_DOMAIN: the CF system domain
 CF_APPS_DOMAIN: the CF apps domain
@@ -121,7 +121,7 @@ CF_JAR: path to the jar on jenkins
 CF_MANIFEST: path to the manifest on jenkins
 CF_PWD: your password
 
-Using the bash script blue-green.sh deploy the green v2 and delete the blue v1 of the app. 
+Using the bash script link:./blue-green.sh[blue-green.sh] deploy the green v2 and delete the blue v1 of the app. 
 
 [source,bash]
 ----
