@@ -32,29 +32,35 @@ cf libs/cities-service-0.0.1-SNAPSHOT.jar
 
 
 ** Using Manifests
-Create Manifest files to push the app
+
+ Create Manifest files to push the app
 
 ** Dependency Injection in Spring
-Bind to in memory database
+
+ Bind to in memory database
 
 ** Health, logging & events via the CLI
 
-View recent logs using CLI
+ View recent logs using CLI
 
 ** Binding to services
-Bind Cities Services to MySQL
-Bind Cities UI to Cities Services
+
+ Bind Cities Services to MySQL
+ Bind Cities UI to Cities Services
 
 ** Environment variables
-View the environment variable and explantion of VCAP
+
+ View the environment variable and explantion of VCAP
 
 ** Scaling apps
-Scale the App using Ops Manager
+
+ Scale the App using Ops Manager
 
 ** Verify the app from the Console
 
 ** Create Version 2
-Create Version 2 by changing the Version Number Env variable 
+
+ Create Version 2 by changing the Version Number Env variable 
 
 ** Push Version 2 and Delete the Old Route using the script
 
