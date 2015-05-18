@@ -1,0 +1,51 @@
+= Developer Experience
+
+== Goals
+
+To deploy and configure a microservice and UI, leverage the platform for monitoring & management of the microservice, and automate a continuous delivery pipeline.
+
+== Exercises
+
+Bring on the applications!  The `pcf-immersion-workshop` project you forked has a directory called `cities` we will use for this section.
+
+* Review the Keynote on link:Cloud_Ready_Apps.key[Cloud Ready Apps]
+
+* Review the link:https://github.com/pcf-alliances-immersion/pcf-immersion-workspace/tree/master/cities[overview] of the `cities` repository.  It is important to understand the components of this project as we will use them throughout the remainder of the class.
+
+=== Running the cities-service locally
+
+* link:local-microservice.adoc[Run the cities-service locally]
+** Import the project into STS
+** Run it locally using Spring Boot
+** Understanding Spring Boot Actuator
+
+=== Applications on Pivotal CF
+
+* Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html[Considerations for Designing and Running an Application in the Cloud]
+
+* Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
+
+* link:sdlc-basics.adoc[SDLC Basics]
+** Pushing apps
+** Using Manifests
+** Dependency Injection in Spring
+** Health, logging & events via the CLI
+** Binding to services
+** Environment variables
+** Scaling apps
+
+The following exercises should be completed for your `cities-service`, not the `cities-ui`.
+
+* link:user-console.adoc[User Console]
+
+* link:ide-integration.adoc[IDE integration]
+
+* link:app-log-drain.adoc[Application Log Draining]
+
+* link:apm.adoc[Monitoring with APM tools]
+
+* link:remote-debugging.adoc[Remote debugging]
+
+* link:app-autoscaling.adoc[Application Autoscaling]
+
+* link:../continuous-delivery/README.adoc[Continuous Delivery]

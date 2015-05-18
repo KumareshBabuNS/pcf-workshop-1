@@ -1,0 +1,17 @@
+= Kick Off
+
+== Introductions
+
+Where are you from?  What is your role?  What is your background?  Any experience with CF?
+
+== Logistics
+
+Review any pertinent logistics.
+
+== Accreditation Expectations
+
+If applicable, review the expectations for accreditation.
+
+== Set Up
+
+Follow the directions for link:../student-setup.adoc[student set up].

@@ -1,0 +1,128 @@
+= Pivotal CF Customer Workshop
+
+CF Customer facing workshops are intended for customer sessions. Customer workshops are a sales acceleration tool, once the demo and initial discovery is done, and before the customer commits on a POC, workshops helps the conversation going.
+Normal transformation platform sales cycles are long, workshops can be a useful tool to get everyone on the organization on the same page and acquainted to the platform.
+
+This are not *__enablement/training__* modules but rather focused around 3-5 use cases, which typically would be covered in a POC. Executing the workshops at customer locations will help in reducing the duration and scope of POCs.
+
+* Workshops are hands on
+* Workshops align to the sales plays
+* Make the workshop repeatable, consistent and current content
+* Each core FE should be able to deliver it
+* Focus on beyond Push, Day 2 , Operationalize PCF
+
+=== Workshop Outline
+DURATION : 3 hours
+
+TITLE : Cloud Foundry Dev Ops/ Dev Day / Ops Day / { } - Lunch and Learn
+
+GOAL: Introduce Pivotal Cloud Foundry as the 3rd Platform
+
+AUDIENCE: Operators, Architects, Data Architects, Developers and Hands on Practitioners (Ideal Audience size is 6-10)
+
+DURATION : 3 Hours , 10:00 am - 1:00 pm (Example)
+
+LOCATION : Customer site
+
+
+=== Pre-requisites for the Workshop
+* Workshop participants are hands on Application Architect/Data Architect/Dev Ops/ Operations/Developer
+* Laptop with ability to install software from USB or Cloud
+* Internet Connectivity
+* Check Firewall rules to access the PCF VCloud Air installation (or AWS)
+* If Workshop is on AWS, ability to execute PCF cloud formation script on customer AWS account before start of workshop.
+
+
+=== Workshop setup
+* Follow the instructions on link:student-setup.adoc[Student Set Up].
+* Create a clone of this repo, and follow the instructions under each content to run the workshop.
+The content not necessary can be deleted before sharing the cloned repository with the customers.
+* Workshop attendees can work in pairs (Pivotal way of building software).
+
+==== Agenda
+* Introductions
+* What we are going to cover?. link:agenda.adoc[Sample Agenda]
+* Overview of the Cloud Foundry/Workshop content. link:overview[Sample Overview]
+* Execute the workshop
+* Q/A
+* Resources
+* Next Steps
+
+=== Workshop Content
+// tag::b-col-indv[]
+[cols="1,2,1,1", options="header"]
+|===
+|Name
+|Description
+|Category
+|Content Owner
+
+|link:devops/README.adoc[DevOps on a CF Platform]
+|This workshop will walkthrough a complete lifecycle of build, push, bind and scale apps using a existing Spring Cloud App.
+|DevOps
+|Alliances (SG)
+
+|link:appdev/MonoMicro.adoc[Monolithic vs Microservices]
+|
+|AppDev
+|Field Engineering (JH)
+
+|link:appdev/Services.adoc[Creating Services in the Marketplace]
+|Service Catalog, Service Broker/Buildpack
+|AppDev
+|Alliances(SG)
+
+|link:platform/Security.adoc[Governance / Security Groups]
+|
+|Platform Ops
+|Alliances(SG)
+
+|link:platform/APM.adoc[Monitoring Applications using APM on a CF Platform]
+|
+|Platform Ops
+|Field Engineering (SC)
+
+|link:platform/Logging.adoc[Log monitoring on a CF Platform]
+|Log aggregator / Splunk/ Paper trail
+|Platform Ops
+|Alliances(SG)
+
+|link:platform/Mobile.adoc[Using Mobile Services on a CF Platform]
+|Mobile Push, API Gateway, Data Sync using Transit+
+|Mobile
+|Field Engineering
+
+|link:data/PivotalOne.adoc[Big Data/PCF/HAWQ/Spring XD, Pentaho]
+|
+|Big Data
+|Field Engineering (CJ)
+
+
+|link:appdev/Responsive.adoc[Create Responsive apps with Microservices]
+|Angular, Bootstrap, Node, MongoDB
+|AppDev
+|Field Engineering (RJ)
+
+|link:appdev/Trellis.adoc[AppDev: Micro Services Operations with Trellis]
+|
+|AppDev
+|Field Engineering (AR)
+
+|link:appdev/APIendpoints.adoc[AppDev: Dynamic Binding/Injection of external dependencies with Service Brokers to non middleware API endpoints]
+|
+|AppDev
+|Field Engineering
+
+|===
+// end::b-col-indv[]
+
+== Material Format Philosophy
+
+* *Presentations* introduce concepts.  They should not provide detail and never reformat the same content available on the docs site as bullets.  Heavily bulleted presentations tend to be boring so we favor animation.  Well rehearsed animation illustrates and explains concepts with very few words (see Onsi’s talk on Diego at link:https://www.youtube.com/watch?v=1OkmVTFhfLY[CF Summit]).
++
+*Note*: Powerpoint versions of the presentations are included.  These are exported from Keynote and may have formatting issues.
++
+
+* *Docs* are for detail.  Students should get in the habit of reading and referring to the docs site.  Open book "quizzes" in the curriculum help ensure students read the docs.
+
+* *Asciidoc* docs in git define the course, links and work.  They are easy to edit, format and navigate.

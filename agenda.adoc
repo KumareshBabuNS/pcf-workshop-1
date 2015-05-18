@@ -1,0 +1,51 @@
+= PCF Workshop for <Customer Name>
+== Agenda
+
+// tag::b-para[]
+
+*Title:* Cloud Foundry Dev Ops/ Dev Day / Ops Day / { } - Lunch and Learn +
+*Goal:* Introduce Pivotal Cloud Foundry as the 3rd Platform +
+*Audience:* Operators, Architects, Data Architects, Developers and Hands on Practitioners (Ideal Audience size is 6-10) +
+*Duration:* 3 Hours , 10:00 am - 1:00 pm +
+*Location:* <Insert Customer Address Here> +
+*Delivered by:* <Insert FE+AE name/email address>
+
+// end::b-para[]
+
+
+=== Content:  DevOps using Cloud Foundry Platform
+// tag::b-para[]
+_<Insert Use case from the list below. Use Cases can change based on audience >_ 
+
+. Technical Overview : What are we going to talk about? +
+. Hands-On Lab : Pair Programmers +
+. Install CLI +
+. DevOps Use Case: 
+        * Distribute USB/Application Jar File 
+        * Push App 
+        * Bind Service 
+        * Scale App 
+        * Kill App 
+        * Blue Green Deployment 
+        * Tail the Application Logs 
+. Demo: Do the same using Spring Studio +
+. Wrap-up: CF, Developer/Operation Agility, New way, 12 Factor Apps +
+. Sales : Next Steps +
+. Q & A 
+
+// end::b-para[]
+
+=== Prerequisites
+* Hands on Application Architect/Data Architect/Dev Ops/ Operations/Developer
+* Laptop with ability to install software from USB
+* Internet Connectivity
+
+=== Key Take Away
+// tag::b-bl[]
+[TIP]
+
+====
+Learn about Cloud Foundry, Operations Agility, Developer Agility, 12 Factor Apps, Building Cloud Native apps
+====
+
+// end::b-bl[]

@@ -1,0 +1,42 @@
+= The Operator Experience
+
+
+== Goals
+
+At the end of this session, students will have a Pivotal CF environment for use in the rest of the class.  They will have:
+
+* Installed Pivotal CF via Ops Manager
+* Added necessary services through Ops Manager
+* Understand how to scale Pivotal CF
+* Monitor Pivotal CF through JMX
+* Set up Elastic Runtime syslog draining into an external log analysis tool
+* Export/backup Pivotal CF
+* Bosh basics & troubleshooting
+* Establish Orgs, spaces, roles, permissions, and quotas
+* Establish application egress security rules
+
+== Exercises
+
+. link:vsphere-install.adoc[Installing on vSphere]
+
+. link:managing-products.adoc[Managing Products with Ops Manager]
+
+. Review the Keynote on link:PCF_Deployments.key[Pivotal CF Deployments]
+
+. Review the Keynote on link:pcf-regional-deployment.key[Multi-Region Deployments]
+
+. link:platform-scaling.adoc[Scaling the platform]
+
+. link:monitoring.adoc[PaaS monitoring]
+
+. link:backup-pcf.adoc[Backing up Pivotal CF]
+
+. Review the Keynote on link:Bosh_Overview.key[Bosh Overview]
+
+. link:bosh-troubleshooting.adoc[Bosh basics & troubleshooting]
+
+. link:orgs-spaces-quotas-users.adoc[Orgs, Spaces, Quotas, Users & Roles]
+
+. link:app-security-groups.adoc[Application Security Groups]
+
+. Log out of the CF CLI as the admin user and log in using the account you created.
