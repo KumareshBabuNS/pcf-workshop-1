@@ -1,7 +1,0 @@
-=== The Developer Console
-
-. Review the documentation on the link: http://docs.pivotal.io/pivotalcf/console/dev-console.html[Console]
-
-. Log into the developer console of your Pivotal CF instance.
-
-. Explore.
