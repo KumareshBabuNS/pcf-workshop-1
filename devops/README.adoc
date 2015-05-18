@@ -121,8 +121,10 @@ CF_JAR: path to the jar on jenkins
 CF_MANIFEST: path to the manifest on jenkins
 CF_PWD: your password
 
++
 [source,bash]
----
+----
+
 cf login -a https://api.$CF_SYSTEM_DOMAIN <Add the correct flags to include the username, password, org and space> --skip-ssl-validation
 
 DEPLOYED_VERSION_CMD=$(CF_COLOR=false cf apps | grep $CF_APP- | cut -d" " -f1)
@@ -136,8 +138,8 @@ cf <???> "$CF_APP-$BUILD_NUMBER" -n "$CF_APP-$ROUTE_VERSION" -d $CF_APPS_DOMAIN 
 cf <???> "$CF_APP-${BUILD_NUMBER}" $CF_APPS_DOMAIN -n $CF_APP
 
 if [ ! -z "$DEPLOYED_VERSION" -a "$DEPLOYED_VERSION" != " " -a "$DEPLOYED_VERSION" != "$CF_APP-${BUILD_NUMBER}" ]; then
- echo "Performing zero-downtime cutover to $BUILD_NUMBER"
- echo "$DEPLOYED_VERSION" | while read line
+  echo "Performing zero-downtime cutover to $BUILD_NUMBER"
+  echo "$DEPLOYED_VERSION" | while read line
   do
     if [ ! -z "$line" -a "$line" != " " -a "$line" != "$CF_APP-${BUILD_NUMBER}" ]; then
       echo "Scaling down, unmapping and removing $line"
@@ -150,7 +152,6 @@ if [ ! -z "$DEPLOYED_VERSION" -a "$DEPLOYED_VERSION" != " " -a "$DEPLOYED_VERSIO
     fi
   done
 fi
----
-
+----
 
 === Verify the app, zero downtime
