@@ -17,7 +17,9 @@ image:blue-green.png[Blue Green Deployment]
 
 ** Building app
 To build the app go to the workspace folder
-`` cd pcf-workspace ``
+[source,perl]
+cd pcf-workspace\cities
+
 ** Pushing apps
 ** Using Manifests
 ** Dependency Injection in Spring
