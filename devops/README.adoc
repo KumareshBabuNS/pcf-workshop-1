@@ -1,4 +1,4 @@
-= Dev Ops Experience
+= Dev Ops on Cloud Foundry Platform
 
 == Goals
 
@@ -6,7 +6,7 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 
 == Pre-work
 
-1. Fork link:https://github.com/pcf-alliances-immersion/pcf-immersion-workspace/[`PCF Workspace`]  project
+1. Fork link:https://github.com/rjain-pivotal/pcf-workshop-workspace/[`PCF Workshop Workspace`]  
 2. Review the link:https://github.com/pcf-alliances-immersion/pcf-immersion-workspace/tree/master/cities[overview] of the `cities` repository.  
 3. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html[Considerations for Designing and Running an Application in the Cloud]
 4. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
@@ -15,54 +15,100 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle
 image:blue-green.png[Blue Green Deployment]
 
-** Building app
+=== Building apps
 To build the app go to the workspace folder
 [source,perl]
-cd pcf-workspace/cities
+cd pcf-workshop-workspace/cities
 gradle build
 
-** Pushing apps
-1. Start with the cities-service app
-[source,perl]
-cd pcf-workspace/cities/cities-service/build
-cf target
-cf libs/cities-service-0.0.1-SNAPSHOT.jar
-
-2. Next, push the cities-ui app
+=== Pushing the cities-service app using CLI
+[source,bash]
+cd pcf-workshop-workspace/cities/cities-service/build/libs
 
 
-** Using Manifests
 
- Create Manifest files to push the app
+Use `cf help` and/or `cf <command> --help` for details on each of the commands below.
 
-** Dependency Injection in Spring
+. Review the docs: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/deploy-app.html
+
+. Verify you are logged in with your own userid (*not admin*) and targeted to your PCF instance:
++
+[source,bash]
+----
+$ cf target
+----
+
+. Push the cities-service:
++
+[source,bash]
+----
+$ cf push cities-service -i 1 -m 512M -p cities-service-0.0.1-SNAPSHOT.jar
+----
++
+* Be sure to name your application '<first-initial><last-initial>-cities-service'
+
+. Verify you can access your application via a curl request:
++
+[source,bash]
+----
+$ curl -i cities-service/cities
+----
+
+
+=== Using Manifests to Push the cities-ui app
+
+Next, push the cities-ui app
+Now, use a manifest to help automate deployment.
+
+. Review the documentation: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/manifest.html
+
+. Create an application manifest in your `cities-service` directory called `manifest.yml`.  Minimally, you must set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
++
+*Be sure to name your application '<first-initial><last-initial>-cities-service' and use this as the host value.*
++
+We must be able to access your application at https://<first-initial><last-initial>-cities-service.YOUR_PCF_APP_DOMAIN
+
+. The IBM Bluemix team has created a manifest generator app that can also be used:
++
+* Hosted: http://cfmanigen.mybluemix.net/
+* Source: https://github.com/IBM-Bluemix/cf-manifest-generator
++
+
+. Test your manifest by re-pushing your app with no parameters:
++
+[source,bash]
+----
+$ cf push
+----
+
+=== Dependency Injection in Spring
 
  Bind to in memory database
 
-** Health, logging & events via the CLI
+=== Health, logging & events via the CLI
 
  View recent logs using CLI
 
-** Binding to services
+=== Binding to services
 
  Bind Cities Services to MySQL
  Bind Cities UI to Cities Services
 
-** Environment variables
+=== Environment variables
 
  View the environment variable and explantion of VCAP
 
-** Scaling apps
+=== Scaling apps
 
  Scale the App using Ops Manager
 
-** Verify the app from the Console
+=== Verify the app from the Console
 
-** Create Version 2
+=== Create Version 2
 
  Create Version 2 by changing the Version Number Env variable 
 
-** Push Version 2 and Delete the Old Route using the script
+=== Push Version 2 and Delete the Old Route using the script
 
 
-** Verify the app, zero downtime
+=== Verify the app, zero downtime
