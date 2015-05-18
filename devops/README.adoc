@@ -122,6 +122,7 @@ CF_MANIFEST: path to the manifest on jenkins
 CF_PWD: your password
 
 [source,bash]
+---
  cf login -a https://api.$CF_SYSTEM_DOMAIN <Add the correct flags to include the username, password, org and space> --skip-ssl-validation
 
  DEPLOYED_VERSION_CMD=$(CF_COLOR=false cf apps | grep $CF_APP- | cut -d" " -f1)
@@ -149,6 +150,7 @@ CF_PWD: your password
     fi
   done
 fi
+---
 
 
 === Verify the app, zero downtime
