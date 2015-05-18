@@ -109,32 +109,46 @@ $ cf push
  Create Version 2 by changing the Version Number Env variable 
 
 === Push Version 2 and Delete the Old Route using the script
-Create the following env variables
+Create a env file with the following variables
+[source,bash]
+CF_SYSTEM_DOMAIN: the CF system domain
+CF_APPS_DOMAIN: the CF apps domain
+CF_USER: the user account
+CF_ORG: org to deploy to
+CF_SPACE: space to deply to
+CF_APP: the app name
+CF_JAR: path to the jar on jenkins
+CF_MANIFEST: path to the manifest on jenkins
+CF_PWD: your password
 
 [source,bash]
+cf login -a https://api.$CF_SYSTEM_DOMAIN <Add the correct flags to include the username, password, org and space> --skip-ssl-validation
 
-DEPLOYED_VERSION_CMD=$(CF_COLOR=false cf apps | grep 'mapUS.' | cut -d" " -f1)
-export BUILD_VERSION="1.2"
-export DEPLOYED_VERSION_CMD
-echo DEPLOYED_VERSION_CMD
-export ROUTE_VERSION="default"
+DEPLOYED_VERSION_CMD=$(CF_COLOR=false cf apps | grep $CF_APP- | cut -d" " -f1)
+DEPLOYED_VERSION="$DEPLOYED_VERSION_CMD"
+ROUTE_VERSION=$(echo "${BUILD_NUMBER}" | cut -d"." -f1-3 | tr '.' '-')
 echo "Deployed Version: $DEPLOYED_VERSION"
 echo "Route Version: $ROUTE_VERSION"
-export API=http://<your_cf_api>
 
-cf api --skip-ssl-validation $API
-cf login -u <user> -p <password> -o <org> -s <space>
+# push a new version and map the route
+cf <???> "$CF_APP-$BUILD_NUMBER" -n "$CF_APP-$ROUTE_VERSION" -d $CF_APPS_DOMAIN -p $CF_JAR -f $CF_MANIFEST
+cf <???> "$CF_APP-${BUILD_NUMBER}" $CF_APPS_DOMAIN -n $CF_APP
 
-cf create-service p-rabbitmq standard demo-rabbit
-
-cf push PCFDemo-producer -f PCFDemo-producer/manifest.yml --no-start
-cf push PCFDemo-map -f PCFDemo-map/manifest.yml --no-start
-
-cf bind-service PCFDemo-producer demo-rabbit
-cf bind-service PCFDemo-map demo-rabbit
-
-cf restart PCFDemo-producer
-cf restart PCFDemo-map
+if [ ! -z "$DEPLOYED_VERSION" -a "$DEPLOYED_VERSION" != " " -a "$DEPLOYED_VERSION" != "$CF_APP-${BUILD_NUMBER}" ]; then
+  echo "Performing zero-downtime cutover to $BUILD_NUMBER"
+  echo "$DEPLOYED_VERSION" | while read line
+  do
+    if [ ! -z "$line" -a "$line" != " " -a "$line" != "$CF_APP-${BUILD_NUMBER}" ]; then
+      echo "Scaling down, unmapping and removing $line"
+      # Unmap the route and delete
+      cf <???>-route "$line" $CF_APPS_DOMAIN -n $CF_APP
+      cf <???> "$line" -f
+      cf delete-route $CF_APPS_DOMAIN -n "$line" -f
+    else
+      echo "Skipping $line"
+    fi
+  done
+fi
 
 
 === Verify the app, zero downtime
