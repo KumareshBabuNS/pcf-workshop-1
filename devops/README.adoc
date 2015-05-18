@@ -109,6 +109,32 @@ $ cf push
  Create Version 2 by changing the Version Number Env variable 
 
 === Push Version 2 and Delete the Old Route using the script
+Create the following env variables
+
+[source,bash]
+
+DEPLOYED_VERSION_CMD=$(CF_COLOR=false cf apps | grep 'mapUS.' | cut -d" " -f1)
+export BUILD_VERSION="1.2"
+export DEPLOYED_VERSION_CMD
+echo DEPLOYED_VERSION_CMD
+export ROUTE_VERSION="default"
+echo "Deployed Version: $DEPLOYED_VERSION"
+echo "Route Version: $ROUTE_VERSION"
+export API=http://<your_cf_api>
+
+cf api --skip-ssl-validation $API
+cf login -u <user> -p <password> -o <org> -s <space>
+
+cf create-service p-rabbitmq standard demo-rabbit
+
+cf push PCFDemo-producer -f PCFDemo-producer/manifest.yml --no-start
+cf push PCFDemo-map -f PCFDemo-map/manifest.yml --no-start
+
+cf bind-service PCFDemo-producer demo-rabbit
+cf bind-service PCFDemo-map demo-rabbit
+
+cf restart PCFDemo-producer
+cf restart PCFDemo-map
 
 
 === Verify the app, zero downtime
