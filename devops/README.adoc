@@ -6,7 +6,7 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 
 == Pre-work
 
-1. Fork link:https://github.com/pcf-alliances-immersion/pcf-immersion-workspace/[`pcf-immersion-workshop`]  project
+1. Fork link:https://github.com/pcf-alliances-immersion/pcf-immersion-workspace/[`PCF Workspace`]  project
 2. Review the link:https://github.com/pcf-alliances-immersion/pcf-immersion-workspace/tree/master/cities[overview] of the `cities` repository.  
 3. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html[Considerations for Designing and Running an Application in the Cloud]
 4. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
@@ -16,6 +16,8 @@ In this workshop we are going to follow these steps to deploy apps on Cloud foun
 image:blue-green.png[Blue Green Deployment]
 
 ** Building app
+To build the app go to the workspace folder
+`` cd pcf-workspace ``
 ** Pushing apps
 ** Using Manifests
 ** Dependency Injection in Spring
