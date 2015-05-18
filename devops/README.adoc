@@ -18,28 +18,45 @@ image:blue-green.png[Blue Green Deployment]
 ** Building app
 To build the app go to the workspace folder
 [source,perl]
-cd pcf-workspace\cities
+cd pcf-workspace/cities
+gradle build
 
 ** Pushing apps
+1. Start with the cities-service app
+[source,perl]
+cd pcf-workspace/cities/cities-service/build
+cf target
+cf libs/cities-service-0.0.1-SNAPSHOT.jar
+
+2. Next, push the cities-ui app
+
+
 ** Using Manifests
+Create Manifest files to push the app
+
 ** Dependency Injection in Spring
+Bind to in memory database
+
 ** Health, logging & events via the CLI
+
+View recent logs using CLI
+
 ** Binding to services
+Bind Cities Services to MySQL
+Bind Cities UI to Cities Services
+
 ** Environment variables
+View the environment variable and explantion of VCAP
+
 ** Scaling apps
+Scale the App using Ops Manager
 
-The following exercises should be completed for your `cities-service`, not the `cities-ui`.
+** Verify the app from the Console
 
-* link:user-console.adoc[User Console]
+** Create Version 2
+Create Version 2 by changing the Version Number Env variable 
 
-* link:ide-integration.adoc[IDE integration]
+** Push Version 2 and Delete the Old Route using the script
 
-* link:app-log-drain.adoc[Application Log Draining]
 
-* link:apm.adoc[Monitoring with APM tools]
-
-* link:remote-debugging.adoc[Remote debugging]
-
-* link:app-autoscaling.adoc[Application Autoscaling]
-
-* link:../continuous-delivery/README.adoc[Continuous Delivery]
+** Verify the app, zero downtime
