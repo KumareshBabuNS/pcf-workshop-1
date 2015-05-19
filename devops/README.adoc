@@ -8,10 +8,10 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 
 . Java SDK 1.6+
 . Git
-. Gradle link:https://gradle.org/
-. Cloud Foundry CLI link:https://github.com/cloudfoundry/cli/releases
+. Gradle link:https://gradle.org/[gradle.org]
+. Cloud Foundry CLI link:https://github.com/cloudfoundry/cli/releases[`CF CLI Releases`]
 . Curl
-. Pivotal Web Services Account. Create a free trial account here link:http://run.pivotal.io/ 
+. Pivotal Web Services Account. Create a free trial account here link:http://run.pivotal.io/[`Pivotal Web Services`]
 
 == Pre-work
 
@@ -120,7 +120,6 @@ $ cf push
 ----
 $ curl -i http://<first-initial><last-initial>cities-service.cfapps.io
 ----
-
 === Dependency Injection in Spring
 
  Bind to in memory database
