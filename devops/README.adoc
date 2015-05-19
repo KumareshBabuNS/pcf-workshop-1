@@ -142,8 +142,6 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/1
 
 For other ways of viewing logs check out the documentation here: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#view
 
- View recent logs using CLI
-
 === Binding to services
 
  Bind Cities Services to MySQL
