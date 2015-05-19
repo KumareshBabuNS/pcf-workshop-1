@@ -4,12 +4,27 @@
 
 To deploy and configure a microservice and UI, leverage the platform for monitoring & management of the microservice, and automate a continuous delivery pipeline.
 
+== Prerequisites 
+
+. Java SDK 1.6+
+. Git
+. Gradle link:https://gradle.org/
+. Cloud Foundry CLI link:https://github.com/cloudfoundry/cli/releases
+. Curl
+. Pivotal Web Services Account. Create a free trial account here link:http://run.pivotal.io/ 
+
 == Pre-work
 
-1. Fork link:https://github.com/rjain-pivotal/pcf-workshop-workspace/[`PCF Workshop Workspace`]  
-2. Review the link:https://github.com/pcf-alliances-immersion/pcf-immersion-workspace/tree/master/cities[overview] of the `cities` repository.  
-3. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html[Considerations for Designing and Running an Application in the Cloud]
-4. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
+. Fork link:https://github.com/rjain-pivotal/pcf-workshop-workspace/[`PCF Workshop Workspace`]  
+. Review the link:https://github.com/pcf-alliances-immersion/pcf-immersion-workspace/tree/master/cities[overview] of the `cities` repository.  
+. Clone the cities repository locally
+[source,bash]
+----
+git clone https://github.com/pivotal-alliances-immersion/pcf-immersion-workspace.git
+----
+
+. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html[Considerations for Designing and Running an Application in the Cloud]
+. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
 
 == Steps
 In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle
@@ -42,7 +57,7 @@ $ cf target
 +
 [source,bash]
 ----
-$ cf push cities-service -i 1 -m 512M -p cities-service-0.0.1-SNAPSHOT.jar
+$ cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p cities-service-0.0.1-SNAPSHOT.jar
 ----
 +
 * Be sure to name your application '<first-initial><last-initial>-cities-service'
@@ -51,14 +66,34 @@ $ cf push cities-service -i 1 -m 512M -p cities-service-0.0.1-SNAPSHOT.jar
 +
 [source,bash]
 ----
-$ curl -i cities-service/cities
+$ curl -i http://<first-initial><last-initial>cities-service.cfapps.io
 ----
 
+The output from this command should look similar to the following:
+[source,bash]
+----
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Date: Mon, 18 May 2015 21:05:28 GMT
+Server: Apache-Coyote/1.1
+X-Application-Context: rr-cities-service:cloud:0
+X-Cf-Requestid: 229f02ff-4e0e-46d9-7536-36ef7f50e7a3
+Content-Length: 147
+Connection: keep-alive
+
+{
+  "_links" : {
+    "cities" : {
+      "href" : "http://rr-cities-service.cfapps.io/cities{?page,size,sort}",
+      "templated" : true
+    }
+  }
+----
 
 === Using Manifests to Push the cities-ui app
 
-Next, push the cities-ui app
-Now, use a manifest to help automate deployment.
+Next, push the cities-ui app.
+This time we'll use a manifest to help automate deployment.
 
 . Review the documentation: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/manifest.html
 
@@ -79,6 +114,11 @@ We must be able to access your application at https://<first-initial><last-initi
 [source,bash]
 ----
 $ cf push
+----
+. Verify you can access your application via a curl request:
+[source,bash]
+----
+$ curl -i http://<first-initial><last-initial>cities-service.cfapps.io
 ----
 
 === Dependency Injection in Spring
