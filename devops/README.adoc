@@ -126,6 +126,22 @@ $ curl -i http://<first-initial><last-initial>cities-service.cfapps.io
 
 === Health, logging & events via the CLI
 
+Learning about how your application is performing is critical to help you diagnose and troubleshoot potential issues. Cloud Foundry gives you options for viewing the logs.
+
+To tail the logs of your application perform this command:
+[source,bash]
+----
+$ cf logs <first-initial><last-initial>-cities-service.cfapps.io
+----
+
+Notice that nothing is showing because there isn't any activity. Use the following curl commmand to see the application working:
+[source,bash]
+----
+$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/10
+----
+
+For other ways of viewing logs check out the documentation here: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#view
+
  View recent logs using CLI
 
 === Binding to services
@@ -139,7 +155,29 @@ $ curl -i http://<first-initial><last-initial>cities-service.cfapps.io
 
 === Scaling apps
 
- Scale the App using Ops Manager
+Applications can be scaled via the command line or the console. When we talk about scale, there are two different types of scale: Vertical and Horizontal.
+
+When you Vertically scale your application, you are increasing the amount of memory made available to your application. Scaling your application horizontally means that you are adding application instances.
+
+Let's vertically scale the application to 1 GB of RAM. 
+[source,bash]
+----
+$ cf scale <first-initial><last-initial>-cities-service -m 1G
+----
+
+Now scale your application down to 512 MB.
+
+Next, let's scale up your application to 2 instances
+[source,bash]
+----
+$ cf scale scale <first-initial><last-initial>-cities-service -i 2
+----
+
+To check the status of your applications you can check from the command line to see how many instances your app is running and their current state
+[source,bash]
+----
+$ cf app <first-initial><last-initial>-cities-service
+----
 
 === Verify the app from the Console
 
