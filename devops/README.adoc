@@ -179,6 +179,23 @@ $ cf app <first-initial><last-initial>-cities-service
 
 === Verify the app from the Console
 
+To verify that the application is running, use the following curl commands to retrieve data from the service:
+
+[source,bash]
+----
+$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities
+----
+
+[source,bash]
+----
+$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/7
+----
+
+[source,bash]
+----
+$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
+----
+
 === Create Version 2
 
  Create Version 2 by changing the Version Number Env variable 
