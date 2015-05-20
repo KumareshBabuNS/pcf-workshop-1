@@ -38,7 +38,7 @@ gradle build
 
 === Pushing the cities-service app using CLI
 [source,bash]
-cd pcf-workshop-workspace/cities/cities-service/build/libs
+cd pcf-workshop-workspace/cities/cities-service
 
 
 
@@ -57,7 +57,7 @@ $ cf target
 +
 [source,bash]
 ----
-$ cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p cities-service-0.0.1-SNAPSHOT.jar
+$ cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p build/libs/cities-service-0.0.1-SNAPSHOT.jar
 ----
 +
 * Be sure to name your application '<first-initial><last-initial>-cities-service'
@@ -66,7 +66,7 @@ $ cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p cities-se
 +
 [source,bash]
 ----
-$ curl -i http://<first-initial><last-initial>cities-service.cfapps.io
+$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io
 ----
 
 The output from this command should look similar to the following:
@@ -84,7 +84,7 @@ Connection: keep-alive
 {
   "_links" : {
     "cities" : {
-      "href" : "http://rr-cities-service.cfapps.io/cities{?page,size,sort}",
+      "href" : "http://rj-cities-service.cfapps.io/cities{?page,size,sort}",
       "templated" : true
     }
   }
@@ -166,16 +166,21 @@ Looks like we need a service.  Let's create one.
 . Bind the mysql instance `<YOUR INITIALS>-cities-db` to your app cities-service
 
 . Restage your cities-service application to inject the new database.
++
+[source,bash]
+----
+$ cf restage rj-cities-service
+----
 
 
-=== Using Manifests to Push the cities-ui app
+=== Binding Services via the Manifest
 
-Next, push the cities-ui app.
+Next, push the cities-service app.
 This time we'll use a manifest to help automate deployment.
 
 . Review the documentation: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/manifest.html
 
-. Create an application manifest in your `cities-service` directory called `manifest.yml`.  Minimally, you must set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
+. Review the application manifest in your `cities-service` directory called `manifest.yml`.  Minimally, you must set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
 +
 *Be sure to name your application '<first-initial><last-initial>-cities-service' and use this as the host value.*
 +
@@ -196,11 +201,8 @@ $ cf push
 . Verify you can access your application via a curl request:
 [source,bash]
 ----
-$ curl -i http://<first-initial><last-initial>cities-ui.cfapps.io
+$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io
 ----
-
-
-=== Binding Services via the Manifest
 
 . Add the services binding `<YOUR INITIALS>-cities-db` to your deployment manifest for cities-service .
 
@@ -209,6 +211,7 @@ $ curl -i http://<first-initial><last-initial>cities-ui.cfapps.io
 . Now, manually unbind the service and re-push your app using the manifest.  Was the database populated?
 
 . QUESTION: How would you set the `SPRING_PROFILES_ACTIVE` variable from the CLI?
+
 
 === Health, logging & events via the CLI
 
@@ -278,9 +281,7 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/7
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
 ----
 
-
-
-== User Provided Service Instances & Tags
+== Deploying Upstream App and Services
 
 The `cities` directory also includes a `cities-ui` application which uses the `cities-client` to consume from the `cities-service`.
 
@@ -316,12 +317,7 @@ Refer to the CitiesWebServiceInfoCreator class for the necessary tag value.
 
 * Access the cities-ui to verify it is connected to your microservice.
 
-
-
-
-
-
-=== Create Version 2 of the App
+== Create Version 2 of the App
 
  Create Version 2 by changing the Version Number Env variable 
 
