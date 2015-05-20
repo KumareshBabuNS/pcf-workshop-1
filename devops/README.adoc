@@ -90,36 +90,6 @@ Connection: keep-alive
   }
 ----
 
-=== Using Manifests to Push the cities-ui app
-
-Next, push the cities-ui app.
-This time we'll use a manifest to help automate deployment.
-
-. Review the documentation: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/manifest.html
-
-. Create an application manifest in your `cities-service` directory called `manifest.yml`.  Minimally, you must set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
-+
-*Be sure to name your application '<first-initial><last-initial>-cities-service' and use this as the host value.*
-+
-We must be able to access your application at https://<first-initial><last-initial>-cities-service.YOUR_PCF_APP_DOMAIN
-
-. The IBM Bluemix team has created a manifest generator app that can also be used:
-+
-* Hosted: http://cfmanigen.mybluemix.net/
-* Source: https://github.com/IBM-Bluemix/cf-manifest-generator
-+
-
-. Test your manifest by re-pushing your app with no parameters:
-+
-[source,bash]
-----
-$ cf push
-----
-. Verify you can access your application via a curl request:
-[source,bash]
-----
-$ curl -i http://<first-initial><last-initial>cities-ui.cfapps.io
-----
 
 === Enabling Spring Cloud & Profiles
 
@@ -197,7 +167,40 @@ Looks like we need a service.  Let's create one.
 
 . Restage your cities-service application to inject the new database.
 
-=== Binding via the Manifest
+
+=== Using Manifests to Push the cities-ui app
+
+Next, push the cities-ui app.
+This time we'll use a manifest to help automate deployment.
+
+. Review the documentation: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/manifest.html
+
+. Create an application manifest in your `cities-service` directory called `manifest.yml`.  Minimally, you must set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
++
+*Be sure to name your application '<first-initial><last-initial>-cities-service' and use this as the host value.*
++
+We must be able to access your application at https://<first-initial><last-initial>-cities-service.YOUR_PCF_APP_DOMAIN
+
+. The IBM Bluemix team has created a manifest generator app that can also be used:
++
+* Hosted: http://cfmanigen.mybluemix.net/
+* Source: https://github.com/IBM-Bluemix/cf-manifest-generator
++
+
+. Test your manifest by re-pushing your app with no parameters:
++
+[source,bash]
+----
+$ cf push
+----
+. Verify you can access your application via a curl request:
+[source,bash]
+----
+$ curl -i http://<first-initial><last-initial>cities-ui.cfapps.io
+----
+
+
+=== Binding Services via the Manifest
 
 . Add the services binding `<YOUR INITIALS>-cities-db` to your deployment manifest for cities-service .
 
@@ -275,7 +278,50 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/7
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
 ----
 
-=== Create Version 2
+
+
+== User Provided Service Instances & Tags
+
+The `cities` directory also includes a `cities-ui` application which uses the `cities-client` to consume from the `cities-service`.
+
+The `cities-client` demonstrates using the link:http://cloud.spring.io/spring-cloud-connectors[Spring Cloud Connector] project to consume from a microservice.  This is a common pattern for 3rd platform apps.  Be sure you understand how it works.
+
+The goal of this exercise is to use what you have learned to deploy the `cities-ui` application.
+
+=== Deploying the Cities UI App
+
+* A `manifest.yml` is included in the cities-ui app.  Edit this manifest with your initials and be sure this manifest works with the service you create below.
+
+* The cities-ui and cities-client can be both built at once by running `gradle assemble` in the parent +cities+ directory.
+
+=== Creating a Service Instance & Deploy
+
+* You will need to connect the application to a service instance representing your microservice (cities-service).
+
+* You can create a User Provided Service Instance and bind this to the ui application.
+** Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/services/user-provided.html[User Provided Service Instances]
+** Look for the details by running `cf help`.
+
+* You will need to specify two parameters when you create the service instance: `uri` and `tag` (see: CitiesWebServiceInfoCreator.java).
+** The `uri` should point to your deployed microservice
+** The `tag` is a property specified in the CitiesWebServiceInfoCreator.  Tags have a special meaning in CF:
++
+_Tags provide a flexible mechanism to expose a classification, attribute, or base technology of a service, enabling equivalent services to be swapped out without changes to dependent logic in applications, buildpacks, or other services. Eg. mysql, relational, redis, key-value, caching, messaging, amqp.  Tags also allow application configurations to be independent of a service instance name._
++
+Refer to the CitiesWebServiceInfoCreator class for the necessary tag value.
+
+* Create the user provided service instance.
+
+* Deploy using the `manifest.yml` contained in the cities-ui project.
+
+* Access the cities-ui to verify it is connected to your microservice.
+
+
+
+
+
+
+=== Create Version 2 of the App
 
  Create Version 2 by changing the Version Number Env variable 
 
