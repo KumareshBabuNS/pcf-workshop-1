@@ -2,7 +2,7 @@
 
 == Goals
 
-To deploy and configure a microservice and UI, leverage the platform for monitoring & management of the microservice, and automate a continuous delivery pipeline.
+To deploy and configure a microservice and UI, leverage the platform for monitoring & management of the microservice, and do a blue green deployment with zero downtime.
 
 == Prerequisites 
 
@@ -35,6 +35,9 @@ To build the app go to the workspace folder
 [source,perl]
 cd pcf-workshop-workspace/cities
 gradle build
+
+
+== PART 1: Build, Deploy, Scale and Monitor an App, complete lifecycle. 
 
 === Pushing the cities-service app using CLI
 [source,bash]
@@ -169,7 +172,7 @@ Looks like we need a service.  Let's create one.
 +
 [source,bash]
 ----
-$ cf restage rj-cities-service
+$ cf restage <first-initial><last-initial>-cities-service
 ----
 
 
@@ -203,7 +206,7 @@ $ cf push
 ----
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io
 ----
-
++
 . Add the services binding `<YOUR INITIALS>-cities-db` to your deployment manifest for cities-service .
 
 . Set the `SPRING_PROFILES_ACTIVE` environment variable to `cloud` in your deployment manifest.
@@ -220,7 +223,7 @@ Learning about how your application is performing is critical to help you diagno
 To tail the logs of your application perform this command:
 [source,bash]
 ----
-$ cf logs <first-initial><last-initial>-cities-service.cfapps.io
+$ cf logs <first-initial><last-initial>-cities-service.cfapps.io 
 ----
 
 Notice that nothing is showing because there isn't any activity. Use the following curl commmand to see the application working:
@@ -235,6 +238,78 @@ For other ways of viewing logs check out the documentation here: http://docs.piv
 === Environment variables
 
  View the environment variable and explantion of VCAP
+[source,bash]
+----
+$ cf env <first-initial><last-initial>-cities-service
+----
+
+ You will get the output similar to this on your terminal
+[source,bash]
+----
+Getting env variables for app rj-cities-service in org Central / space development as rajesh.jain@pivotal.io...
+OK
+
+System-Provided:
+{
+ "VCAP_SERVICES": {
+  "cleardb": [
+   {
+    "credentials": {
+     "hostname": "xxxx",
+     "jdbcUrl": "xxxx",
+     "name": "xxxx",
+     "password": "xxxx",
+     "port": "3306",
+     "uri": "mysql://xxxx?reconnect=true",
+     "username": "xxxx"
+    },
+    "label": "cleardb",
+    "name": "rj-cities-db",
+    "plan": "spark",
+    "tags": [
+     "Data Stores",
+     "Cloud Databases",
+     "Developer Tools",
+     "Data Store",
+     "mysql",
+     "relational"
+    ]
+   }
+  ]
+ }
+}
+
+{
+ "VCAP_APPLICATION": {
+  "application_name": "rj-cities-service",
+  "application_uris": [
+   "rj-cities-service.cfapps.io"
+  ],
+  "application_version": "c3c35527-424f-4dbc-a4ea-115e1250cc5d",
+  "limits": {
+   "disk": 1024,
+   "fds": 16384,
+   "mem": 512
+  },
+  "name": "rj-cities-service",
+  "space_id": "56e1d8ef-e87f-4b1c-930b-e7f46c00e483",
+  "space_name": "development",
+  "uris": [
+   "rj-cities-service.cfapps.io"
+  ],
+  "users": null,
+  "version": "c3c35527-424f-4dbc-a4ea-115e1250cc5d"
+ }
+}
+
+User-Provided:
+SPRING_PROFILES_ACTIVE: cloud
+
+No running env variables have been set
+
+No staging env variables have been set
+----
+
 
 === Scaling apps
 
@@ -281,7 +356,7 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/7
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
 ----
 
-== Deploying Upstream App and Services
+== PART 2: Deploying Upstream App and bind to backend services
 
 The `cities` directory also includes a `cities-ui` application which uses the `cities-client` to consume from the `cities-service`.
 
@@ -291,7 +366,7 @@ The goal of this exercise is to use what you have learned to deploy the `cities-
 
 === Deploying the Cities UI App
 
-* A `manifest.yml` is included in the cities-ui app.  Edit this manifest with your initials and be sure this manifest works with the service you create below.
+* A `manifest.yml` is included in the cities-ui app.  Edit this manifest with your initials.
 
 * The cities-ui and cities-client can be both built at once by running `gradle assemble` in the parent +cities+ directory.
 
@@ -317,24 +392,34 @@ Refer to the CitiesWebServiceInfoCreator class for the necessary tag value.
 
 * Access the cities-ui to verify it is connected to your microservice.
 
-== Create Version 2 of the App
-
- Create Version 2 by changing the Version Number Env variable 
+== PART 3: Deploy Version 2 of the App
 
 === Push Version 2 and Delete the Old Route using the script
-Create a link:./.env[env file] with the following variables
-[source,bash]
-CF_SYSTEM_DOMAIN: the CF system domain
-CF_APPS_DOMAIN: the CF apps domain
-CF_USER: the user account
-CF_ORG: org to deploy to
-CF_SPACE: space to deply to
-CF_APP: the app name
-CF_JAR: path to the jar on jenkins
-CF_MANIFEST: path to the manifest on jenkins
-CF_PWD: your password
+We are going to deploy the next version of the `cities-ui` app. The deployment typically is automated using a CD pipeline built with Jenkins or any CD automation tool, but in this workshop we will walk through a simple version number change in the deployment manifest. 
 
-Using the bash script link:./blue-green.sh[blue-green.sh] deploy the green v2 and delete the blue v1 of the app. 
+. Edit the `manifest.yml` with the following variables
+[source,bash]
+---
+ VERSION: CITIES_APP_2_0
+----
+
+
+. Edit and source a link:./.env[env file] with the following variables
+
+[source,bash]
+---
+ export CF_SYSTEM_DOMAIN=
+ export CF_APPS_DOMAIN=
+ export CF_USER=
+ export CF_ORG=
+ export CF_SPACE=
+ export CF_APP=cities-ui
+ export CF_JAR=build/libs/cities-ui.jar
+ export CF_MANIFEST=manifest.yml
+---
+
+
+. Using the bash script link:./blue-green.sh[blue-green.sh] deploy the green v2 and delete the blue v1 of the app. 
 
 [source,bash]
 ----
@@ -369,3 +454,5 @@ fi
 ----
 
 === Verify the app, zero downtime
+
+
