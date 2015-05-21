@@ -567,6 +567,8 @@ Connection: keep-alive
 5001
 
 ----
+=== Repeat the Process
+Change the version and build numbers and run the script to do blue-green deployment. Check the output using curl.
 
 === Process of Blue Green Deployment
 
