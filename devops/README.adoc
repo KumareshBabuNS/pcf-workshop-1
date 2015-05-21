@@ -366,13 +366,13 @@ The goal of this exercise is to use what you have learned to deploy the `cities-
 
 === Build the Cities UI and Cities Client App
 
-* The cities-ui and cities-client can be both built at once by running `gradle assemble` in the parent +cities+ directory.
+The cities-ui and cities-client can be both built at once by running `gradle assemble` in the parent +cities+ directory.
 
 === Creating a Service Instance & Deploy
 
 In this section we will connect the cities-ui application to a service instance representing your microservice (cities-service).
 
-* Create a User Provided Service Instance.
+==== Create a User Provided Service Instance.
 
 ** Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/services/user-provided.html[User Provided Service Instances]
 ** Look for the details by running `cf help`.
@@ -382,15 +382,16 @@ In this section we will connect the cities-ui application to a service instance 
 *** The `tag` is a property specified in the CitiesWebServiceInfoCreator.  Tags have a special meaning in CF:
 +
 _Tags provide a flexible mechanism to expose a classification, attribute, or base technology of a service, enabling equivalent services to be swapped out without changes to dependent logic in applications, buildpacks, or other services. Eg. mysql, relational, redis, key-value, caching, messaging, amqp.  Tags also allow application configurations to be independent of a service instance name._
-+
+
++ 
 Refer to the CitiesWebServiceInfoCreator class for the necessary tag value.
 
 [source,bash]
 ----
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
 ----
-+
-* Deploy using the `manifest.yml` contained in the cities-ui project which will bind this to the ui application
+
+==== Deploy using the `manifest.yml` contained in the cities-ui project which will bind this to the ui application
 
 A `manifest.yml` is included in the cities-ui app.  Edit this manifest with your initials and add the service binding to your cities-service 
 
@@ -399,8 +400,8 @@ A `manifest.yml` is included in the cities-ui app.  Edit this manifest with your
 ----
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
 ----
-+
-* Access the cities-ui to verify it is connected to your microservice.
+
+==== Access the cities-ui to verify it is connected to your microservice.
 [source,bash]
 ----
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
