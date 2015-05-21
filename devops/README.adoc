@@ -17,31 +17,31 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 
 . Fork link:https://github.com/rjain-pivotal/pcf-workshop-workspace/[`PCF Workshop Workspace`]  
 . Review the link:https://github.com/pcf-alliances-immersion/pcf-immersion-workspace/tree/master/cities[overview] of the `cities` repository.  
-. Clone the cities repository locally
-[source,bash]
-----
-git clone https://github.com/pivotal-alliances-immersion/pcf-immersion-workspace.git
-----
-
+. Clone the workspace cities repository locally
 . Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html[Considerations for Designing and Running an Application in the Cloud]
 . Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
 
 == Steps
 In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle
-image:blue-green.png[Blue Green Deployment]
+image:./images/blue-green.png[Blue Green Deployment]
 
 === Building apps
 To build the app go to the workspace folder
-[source,perl]
+
+[source,bash]
+----
 cd pcf-workshop-workspace/cities
 gradle build
+----
 
 
 == PART 1: Build, Push, Bind, Monitor and Scale an App. 
 
 === Pushing the cities-service app using CLI
 [source,bash]
+----
 cd pcf-workshop-workspace/cities/cities-service
+----
 
 
 
@@ -237,13 +237,14 @@ For other ways of viewing logs check out the documentation here: http://docs.piv
 
 === Environment variables
 
- View the environment variable and explantion of VCAP
+View the environment variable and explantion of VCAP
+
 [source,bash]
 ----
 $ cf env <first-initial><last-initial>-cities-service
 ----
 
- You will get the output similar to this on your terminal
+You will get the output similar to this on your terminal
 [source,bash]
 ----
 Getting env variables for app rj-cities-service in org Central / space development as rajesh.jain@pivotal.io...
@@ -386,7 +387,7 @@ _Tags provide a flexible mechanism to expose a classification, attribute, or bas
 
 [source,bash]
 ----
-$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
+cf cups <first-initial><last-initial>-cities-ws -p '{"uri":"http://<first-initial><last-initial>-cities-service.cfapps.io/","tag":"cities"}'
 ----
 
 === Deploy cities-ui project 
@@ -396,14 +397,72 @@ A `manifest.yml` is included in the cities-ui app.  Edit this manifest with your
 
 [source,bash]
 ----
-$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
+---
+applications:
+- name: <YOUR INITIALS>-cities-ui
+  memory: 512M
+  instances: 1
+  path: build/libs/cities-ui.jar
+  services: [ <YOUR INITIALS>-cities-ws ]
+  env:
+    SPRING_PROFILES_ACTIVE: cloud
+----
+
+=== Verify the backend service is bound to cities-ui
+
+[source,bash]
+----
+$ cf env cities-ui
+
+System-Provided:
+{
+ "VCAP_SERVICES": {
+  "user-provided": [
+   {
+    "credentials": {
+     "tag": "cities",
+     "uri": "http://rj-cities-service.cfapps.io/"
+    },
+    "label": "user-provided",
+    "name": "cities-ws",
+    "syslog_drain_url": "",
+    "tags": []
+   }
+  ]
+ }
+}
+
+{
+ "VCAP_APPLICATION": {
+  "application_name": "rj-cities-ui",
+  "application_uris": [
+   "rj-cities-ui.cfapps.io"
+  ],
+  "application_version": "dceb111b-3a68-45ad-83fd-3b8b836ebbe7",
+  "limits": {
+   "disk": 1024,
+   "fds": 16384,
+   "mem": 512
+  },
+  "name": "rj-cities-ui",
+  "space_id": "56e1d8ef-e87f-4b1c-930b-e7f46c00e483",
+  "space_name": "development",
+  "uris": [
+   "rj-cities-ui.cfapps.io"
+  ],
+  "users": null,
+  "version": "dceb111b-3a68-45ad-83fd-3b8b836ebbe7"
+ }
+}
+
+User-Provided:
+SPRING_PROFILES_ACTIVE: cloud
 ----
 
 === Access the cities-ui to verify it is connected to your microservice.
-[source,bash]
-----
-$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
-----
+Open the Console and launch the cities-ui application. 
+
+image:./images/cities-ui.png[Cities UI]
 
 == PART 3: Deploy Version 2 of the App
 
