@@ -539,7 +539,7 @@ $cf apps | grep -i cities-ui
 rj-cities-ui-5001                       started           1/1         512M     1G     rj-cities-ui.cfapps.io, rj-cities-ui-5001.cfapps.io   
 
 ----
-+
+
 [source,bash]
 ----
 $cf routes | grep -i cities-ui
@@ -548,7 +548,7 @@ development   rj-cities-ui                                           cfapps.io  
 development   rj-cities-ui-5001                                      cfapps.io   rj-cities-ui-5001   
 
 ----
-+
+
 [source,bash]
 ----
 
@@ -566,6 +566,34 @@ Connection: keep-alive
 5001
 
 ----
+
+=== Process of Blue Green Deployment
+
+. Review link:http://docs.cloudfoundry.org/devguide/deploy-apps/blue-green.html[Using Blue-Green Deployment to Reduce Downtime and Risk]
+
+In summary Blue-green deployment is a release technique that reduces downtime and risk by running two identical production environments called Blue and Green.
+image:./images/blue-green.png[Blue Green Deployment]
+
+
+=== Newsworthy: Automated Blue Green with cf plugin
+Cloud Foundry plugin link:https://github.com/concourse/autopilot[Autopilot] does blue green deployment, albeit it takes a different approach to other zero-downtime plugins. It doesn't perform any complex route re-mappings instead it leans on the manifest feature of the Cloud Foundry CLI. The method also has the advantage of treating a manifest as the source of truth and will converge the state of the system towards that. This makes the plugin ideal for continuous delivery environments.
+
+[source,bash]
+----
+$ go get github.com/concourse/autopilot
+$ cf install-plugin $GOPATH/bin/autopilot
+
+$ cf zero-downtime-push application-to-replace \
+    -f path/to/new_manifest.yml \
+    -p path/to/new/path
+    
+----
+
+
+== Recap
+
+In this workshop we saw how to build, deploy, bind, scale, monitor apps on Cloud foundry and manage the lifecycle
+image:./images/blue-green.png[Blue Green Deployment]
 
 
 
