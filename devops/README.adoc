@@ -22,7 +22,8 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 . Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
 
 == Steps
-In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle
+In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle of the application. 
+
 image:./images/blue-green.png[Blue Green Deployment]
 
 === Building apps
@@ -572,7 +573,7 @@ Connection: keep-alive
 . Review link:http://docs.cloudfoundry.org/devguide/deploy-apps/blue-green.html[Using Blue-Green Deployment to Reduce Downtime and Risk]
 
 In summary Blue-green deployment is a release technique that reduces downtime and risk by running two identical production environments called Blue and Green.
-image:./images/blue-green.png[Blue Green Deployment]
+image:./images/blue-green-process.png[Blue Green Deployment Process]
 
 
 === Newsworthy: Automated Blue Green with cf plugin
