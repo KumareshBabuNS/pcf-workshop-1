@@ -37,7 +37,7 @@ cd pcf-workshop-workspace/cities
 gradle build
 
 
-== PART 1: Build, Deploy, Scale and Monitor an App, complete lifecycle. 
+== PART 1: Build, Push, Bind, Monitor and Scale an App. 
 
 === Pushing the cities-service app using CLI
 [source,bash]
@@ -356,7 +356,7 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/7
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
 ----
 
-== PART 2: Deploying Upstream App and bind to backend services
+== PART 2: Deploying Upstream App and Bind to backend services
 
 The `cities` directory also includes a `cities-ui` application which uses the `cities-client` to consume from the `cities-service`.
 
@@ -389,7 +389,7 @@ _Tags provide a flexible mechanism to expose a classification, attribute, or bas
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
 ----
 
-=== Deploy using the `manifest.yml` contained in the cities-ui project which will bind this to the ui application
+=== Deploy cities-ui project 
 
 A `manifest.yml` is included in the cities-ui app.  Edit this manifest with your initials and add the service binding to your cities-service 
 
