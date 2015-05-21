@@ -570,7 +570,7 @@ Connection: keep-alive
 
 === Process of Blue Green Deployment
 
-. Review link:http://docs.cloudfoundry.org/devguide/deploy-apps/blue-green.html[Using Blue-Green Deployment to Reduce Downtime and Risk]
+Review the CF Document for blue green deployment link:http://docs.cloudfoundry.org/devguide/deploy-apps/blue-green.html[Using Blue-Green Deployment to Reduce Downtime and Risk]
 
 In summary Blue-green deployment is a release technique that reduces downtime and risk by running two identical production environments called Blue and Green.
 image:./images/blue-green-process.png[Blue Green Deployment Process]
@@ -597,4 +597,4 @@ In this workshop we saw how to build, deploy, bind, scale, monitor apps on Cloud
 image:./images/blue-green.png[Blue Green Deployment]
 
 
-
+== Q/A
