@@ -466,6 +466,13 @@ image:./images/cities-ui.png[Cities UI]
 
 == PART 3: Deploy Version 2 of the App
 
+=== Delete the unversioned app and the route
+[source,bash]
+----
+cf delete <first-initial><last-initial>-cities-ui
+cf delete-route cfapps.io -n <first-initial><last-initial>-cities-ui
+----
+
 === Push Version 2 and Delete the Old Route using the script
 We are going to deploy the next version of the `cities-ui` app. The deployment typically is automated using a CD pipeline built with Jenkins or any CD automation tool, but in this workshop we will walk through a simple version number change in the deployment manifest. 
 
@@ -487,15 +494,16 @@ We are going to deploy the next version of the `cities-ui` app. The deployment t
  export CF_APP=cities-ui
  export CF_JAR=build/libs/cities-ui.jar
  export CF_MANIFEST=manifest.yml
+ export BUILD_NUMBER=2001
 ---
 
 
-. Using the bash script link:./blue-green.sh[blue-green.sh] deploy the green v2 and delete the blue v1 of the app. 
+. Using the bash script `blue-green.sh` in the cities-ui directory, deploy the green v2 and delete the blue v1 of the app. 
 
 [source,bash]
 ----
-
-cf login -a https://api.$CF_SYSTEM_DOMAIN <Add the correct flags to include the username, password, org and space> --skip-ssl-validation
+source env
+cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE --skip-ssl-validation
 
 DEPLOYED_VERSION_CMD=$(CF_COLOR=false cf apps | grep $CF_APP- | cut -d" " -f1)
 DEPLOYED_VERSION="$DEPLOYED_VERSION_CMD"
@@ -504,8 +512,8 @@ echo "Deployed Version: $DEPLOYED_VERSION"
 echo "Route Version: $ROUTE_VERSION"
 
 # push a new version and map the route
-cf <???> "$CF_APP-$BUILD_NUMBER" -n "$CF_APP-$ROUTE_VERSION" -d $CF_APPS_DOMAIN -p $CF_JAR -f $CF_MANIFEST
-cf <???> "$CF_APP-${BUILD_NUMBER}" $CF_APPS_DOMAIN -n $CF_APP
+cf push "$CF_APP-$BUILD_NUMBER" -n "$CF_APP-$ROUTE_VERSION" -d $CF_APPS_DOMAIN -p $CF_JAR -f $CF_MANIFEST
+cf map-route "$CF_APP-${BUILD_NUMBER}" $CF_APPS_DOMAIN -n $CF_APP
 
 if [ ! -z "$DEPLOYED_VERSION" -a "$DEPLOYED_VERSION" != " " -a "$DEPLOYED_VERSION" != "$CF_APP-${BUILD_NUMBER}" ]; then
   echo "Performing zero-downtime cutover to $BUILD_NUMBER"
@@ -514,8 +522,8 @@ if [ ! -z "$DEPLOYED_VERSION" -a "$DEPLOYED_VERSION" != " " -a "$DEPLOYED_VERSIO
     if [ ! -z "$line" -a "$line" != " " -a "$line" != "$CF_APP-${BUILD_NUMBER}" ]; then
       echo "Scaling down, unmapping and removing $line"
       # Unmap the route and delete
-      cf <???>-route "$line" $CF_APPS_DOMAIN -n $CF_APP
-      cf <???> "$line" -f
+      cf unmap-route "$line" $CF_APPS_DOMAIN -n $CF_APP
+      cf delete "$line" -f
       cf delete-route $CF_APPS_DOMAIN -n "$line" -f
     else
       echo "Skipping $line"
@@ -525,5 +533,39 @@ fi
 ----
 
 === Verify the app, zero downtime
+[source,bash]
+----
+$cf apps | grep -i cities-ui
+rj-cities-ui-5001                       started           1/1         512M     1G     rj-cities-ui.cfapps.io, rj-cities-ui-5001.cfapps.io   
+
+----
++
+[source,bash]
+----
+$cf routes | grep -i cities-ui
+
+development   rj-cities-ui                                           cfapps.io   rj-cities-ui-5001   
+development   rj-cities-ui-5001                                      cfapps.io   rj-cities-ui-5001   
+
+----
++
+[source,bash]
+----
+
+$ curl -i http://<first-initial><last-initial>-cities-ui.cfapps.io/cities/version
+
+HTTP/1.1 200 OK
+Content-Type: text/plain;charset=ISO-8859-1
+Date: Thu, 21 May 2015 02:22:29 GMT
+Server: Apache-Coyote/1.1
+X-Application-Context: rj-cities-ui-5001:cloud:0
+X-Cf-Requestid: d9fa0481-5cb4-47cd-6335-35adf575a0b6
+Content-Length: 4
+Connection: keep-alive
+
+5001
+
+----
+
 
 
