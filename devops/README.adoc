@@ -22,7 +22,7 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 . Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
 
 == Steps
-In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle of the application. 
+In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle of the application.
 
 image:./images/devops-cf.png[DevOps on CF]
 
@@ -593,7 +593,7 @@ $ cf zero-downtime-push application-to-replace \
 
 == Recap
 
-In this workshop we saw how to build, deploy, bind, scale, monitor apps on Cloud foundry and manage the lifecycle
+In this workshop we saw how to build, deploy, bind, scale, monitor apps on Cloud foundry and manage the lifecycle of the application.
 
 image:./images/devops-cf.png[DevOps on CF]
 
